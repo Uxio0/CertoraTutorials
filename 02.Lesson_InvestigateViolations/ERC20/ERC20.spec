@@ -23,7 +23,7 @@ rule integrityOfTransferFrom(address owner, address recipient, uint256 amount) {
 	uint256 allowanceBefore = allowance(e, owner, e.msg.sender);
 	transferFrom(e, owner, recipient, amount);
 	uint256 allowanceAfter = allowance(e, owner, e.msg.sender);
-    
+
 	assert allowanceBefore >= allowanceAfter, "allowance musn't increase after using the allowance to pay on behalf of somebody else";
 }
 
@@ -48,10 +48,34 @@ rule balanceChangesFromCertainFunctions(method f, address user){
     f(e, args);
     uint256 userBalanceAfter = balanceOf(e, user);
 
-    assert userBalanceBefore != userBalanceAfter => 
+    assert userBalanceBefore != userBalanceAfter =>
         (f.selector == transfer(address, uint256).selector ||
          f.selector == transferFrom(address, address, uint256).selector ||
          f.selector == mint(address, uint256).selector ||
          f.selector == burn(address, uint256).selector),
          "user's balance changed as a result function other than transfer(), transferFrom(), mint() or burn()";
+}
+
+
+// Checks that the totalSupply of the token is at least equal to a single user's balance
+// This rule breaks also on a fixed version of ERC20 -
+// why? understand the infeasible state that the rule start with
+// Allowances and user balance can be higher than totalSupply
+rule totalSupplyNotLessThanSingleUserBalance(method f, address user) {
+	env e;
+	calldataarg args;
+	uint256 totalSupplyBefore = totalSupply(e);
+    uint256 userBalanceBefore = balanceOf(e, user);
+    uint256 senderBalanceBefore = balanceOf(e, e.msg.sender);
+
+    require balanceOf(e, user) + balanceOf(e, e.msg.sender) <= totalSupply(e);
+
+    f(e, args);
+
+    uint256 totalSupplyAfter = totalSupply(e);
+    uint256 userBalanceAfter = balanceOf(e, user);
+    uint256 senderBalanceAfter = balanceOf(e, e.msg.sender);
+	assert totalSupplyBefore >= userBalanceBefore =>
+            totalSupplyAfter >= userBalanceAfter,
+        "a user's balance is exceeding the total supply of token";
 }

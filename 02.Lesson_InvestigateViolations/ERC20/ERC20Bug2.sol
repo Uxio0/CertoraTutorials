@@ -184,6 +184,11 @@ contract ERC20 is IERC20, IERC20Metadata {
             currentAllowance >= amount,
             "ERC20: transfer amount exceeds allowance"
         );
+        require(
+            currentAllowance - amount < currentAllowance ,
+            "ERC20: transfer amount exceeds allowance"
+        );
+
         unchecked {
             _approve(sender, msg.sender, currentAllowance - amount);
         }
@@ -242,6 +247,10 @@ contract ERC20 is IERC20, IERC20Metadata {
             currentAllowance >= subtractedValue,
             "ERC20: decreased allowance below zero"
         );
+        require(
+            currentAllowance - subtractedValue < currentAllowance,
+            "ERC20: decreased allowance below zero"
+        );
         unchecked {
             _approve(msg.sender, spender, currentAllowance - subtractedValue);
         }
@@ -274,6 +283,7 @@ contract ERC20 is IERC20, IERC20Metadata {
         _beforeTokenTransfer(sender, recipient, amount);
 
         uint256 senderBalance = _balances[sender];
+        require(senderBalance - amount < senderBalance, "Underflow on senderBalance");
         unchecked {
             _balances[sender] = senderBalance - amount;
         }
@@ -323,9 +333,11 @@ contract ERC20 is IERC20, IERC20Metadata {
 
         uint256 accountBalance = _balances[account];
         require(accountBalance >= amount, "ERC20: burn amount exceeds balance");
+        require(accountBalance - amount < accountBalance, "Underflow check");
         unchecked {
             _balances[account] = accountBalance - amount;
         }
+        require(_totalSupply - amount < _totalSupply, "Underflow check");
         _totalSupply -= amount;
 
         emit Transfer(account, address(0), amount);
