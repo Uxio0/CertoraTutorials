@@ -284,6 +284,7 @@ contract ERC20 is IERC20, IERC20Metadata {
 
         uint256 senderBalance = _balances[sender];
         require(senderBalance - amount < senderBalance, "Underflow on senderBalance");
+        require(senderBalance - amount >= 0, "SenderBalance is not enough");
         unchecked {
             _balances[sender] = senderBalance - amount;
         }

@@ -61,6 +61,7 @@ contract Borda is IBorda {
 
     function registerVoter(uint8 age) external override returns (bool) {
         require (!_contenders[msg.sender].registered, "you are already registered");
+        require (!_voters[msg.sender].black_listed, "you are black listed");
         _voters[msg.sender] = Voters({age: age, registered: true, voted: false, vote_attempts: 0, black_listed: false});
         return true;
     }
