@@ -8,6 +8,6 @@
 (check-sat)
 (get-model)
 
-; Circle = 1
+; Circle = 5
 ; Square = 2
 ; Triangle = 1
