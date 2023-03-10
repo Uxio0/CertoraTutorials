@@ -1,0 +1,9 @@
+- Auction is either not init, started or closed
+- Auction can go from not init -> started -> closed, not other flow is possible
+- Bidder needs at least payment funds to bid (require, property of the system)
+- Prize can never increase
+- Prize can only decrease when calling bid
+- Bid expirity is increased by 1 hour when calling bid
+- Winner is always the caller when calling bid
+- Prize + getTotalFunds() can never exceed a uint256
+- Payment can never change
