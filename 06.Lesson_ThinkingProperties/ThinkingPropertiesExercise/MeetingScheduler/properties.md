@@ -1,0 +1,14 @@
+- (Variable Transaction) State of meetings: UNINITIALIZED -> PENDING -> CANCELLED
+                                                          -> STARTED -> ENDED
+- (High level) Only owner can cancel a meeting
+- (High level) Anyone can start a pending meeting
+- (High level) Anyone can end a started meeting if the **ending time is met**
+- (Variable transaction) Meeting can only start after calling `startMeeting`
+- (Variable transaction) Meeting can only be cancelled after calling `cancelMeeting` by the owner
+- (Variable transaction) Meeting can only be ended after calling `endMeeting`
+- (Variable transaction) `numOfParticipants` can never be decreased
+- (High level) `numOfParticipants` is only increased when calling `joinMeeting`
+- (Unit test) `numOfParticipants` is increased by `1` when calling `joinMeeting`
+- `organizer` can never change
+- (Valid State) I guess depending on the `status` different conditions for `startTime` or `endTime` must be met (difficult to tell looking at the interface)
+- `startTime <= endtime` for an `auctionId`

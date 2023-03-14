@@ -1,0 +1,12 @@
+- `numEvents` can never decrease
+- `numEvents` can only increase by 1 when calling `createEvent`
+- `numEvents` cannot overflow
+- Number of items in `eventsMap` must be equal to `numEvents`
+- `ticketsRemaining` cannot underflow
+- Event goes UNITIALIZED -> CREATED -> SOLD OUT
+- Offer goes UNITIALIZED -> CREATED -> UNITIALIZED
+- Valid State Check for EventOffer
+- Valid State Check for Offer
+- `buyNewTicket` transfers `ticketPrice + transactionFee` from the sender to the owner
+- `offerTicket` transfers `transactionFee` from the sender to the owner
+- `buyOfferedTicket` transfers `offer.price` from the sender to the `ticket attendee`
