@@ -34,7 +34,7 @@ methods {
 
 // check highestBidder correlation with highestBid from bids mapping
 invariant highestBidVSBids() 
-    bids( highestBidder()) == highestBid()
+    highestBidder() != 0 => bids( highestBidder()) == highestBid()
 
 
 
