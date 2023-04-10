@@ -1,0 +1,8 @@
+- Balance for user only increases on deposit
+- Balance for user only decreases on withdraw
+- Deposit increments totalSupply and poolBalance and decreases user asset balance
+- Shares received by deposit are always less or equal than the amount provided
+- Withdraw decrements totalSupply and poolBalance and increases user asset balance
+- Amount received by withdraw is always equal or greater than the shares provided
+- Invariant: poolBalance is always equal or greater than totalSupply
+- FlashLoan: poolBalance remains the same and totalSupply increases
