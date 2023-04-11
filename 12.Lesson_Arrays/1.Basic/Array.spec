@@ -1,12 +1,14 @@
 // #contract Array.sol:Array
 methods {
     get(uint) returns (address) envfree
+    getWithDefaultValue(uint) returns (address) envfree
+    getLength() returns (uint) envfree
 }
 
 
 invariant uniqueArrayUsingRevert(uint256 i, uint256 j)
 (
-    (get@withrevert(i) == get@withrevert(j)) => (i == j)
+    (getWithDefaultValue(i) == getWithDefaultValue(j)) => (i == j) || (getWithDefaultValue(i) == 0)
 )
 
 

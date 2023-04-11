@@ -1,5 +1,5 @@
-certoraRun Array.sol \
---verify Array:Array.spec \
+certoraRun ArrayImproved.sol:Array \
+--verify Array:ArrayImproved.spec \
 --send_only \
 --optimistic_loop \
 --loop_iter 4 \
